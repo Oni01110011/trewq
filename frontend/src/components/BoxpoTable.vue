@@ -5,6 +5,15 @@
         <v-icon icon="mdi-map-marker" class="mr-2" size="small" color="primary"></v-icon>
         <span class="text-h6">Box Position Records</span>
         <v-spacer></v-spacer>
+        <v-btn
+          color="secondary"
+          variant="outlined"
+          prepend-icon="mdi-view-column"
+          class="mr-2"
+          @click="attributesDialog = true"
+        >
+          Attributes
+        </v-btn>
         <v-chip color="primary" variant="outlined" size="small">
           {{ boxpos?.length || 0 }} Total
         </v-chip>
@@ -24,7 +33,7 @@
       <v-data-table
         v-if="boxpos"
         v-model:items-per-page="itemsPerPage"
-        :headers="headers"
+        :headers="visibleHeaders"
         :items="boxpos"
         :search="search"
         item-value="id.bposId"
@@ -37,11 +46,36 @@
         </template>
       </v-data-table>
     </v-card>
+
+    <!-- Dialog zur Auswahl sichtbarer Attribute/Spalten -->
+    <v-dialog v-model="attributesDialog" max-width="400px">
+      <v-card>
+        <v-card-title class="text-h6">Select attributes</v-card-title>
+        <v-card-text>
+          <div class="text-caption mb-2">
+            Choose which columns should be visible in the table.
+          </div>
+          <v-checkbox
+            v-for="header in selectableHeaders"
+            :key="header.key"
+            v-model="visibleHeaderKeys"
+            :label="header.title"
+            :value="header.key"
+            density="compact"
+            hide-details
+          />
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn variant="text" @click="attributesDialog = false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import getBoxpos from '../services/getBoxpos'
 
 export default {
@@ -49,6 +83,25 @@ export default {
     const { boxpos, error, load } = getBoxpos()
     const itemsPerPage = ref(10)
     const search = ref('')
+
+    // Spalten-/Attributsteuerung
+    const allHeaders = [
+      { title: 'Position ID', align: 'start', key: 'id.bposId', width: 120 },
+      { title: 'Box ID', align: 'start', key: 'id.bId', width: 120 },
+      { title: 'Box Name', align: 'start', key: 'b.name' },
+      { title: 'Date Exported', align: 'start', key: 'dateExported', width: 180 },
+    ]
+
+    const visibleHeaderKeys = ref(
+      allHeaders.map(h => h.key)
+    )
+
+    const visibleHeaders = computed(() =>
+      allHeaders.filter(h => visibleHeaderKeys.value.includes(h.key))
+    )
+
+    const selectableHeaders = allHeaders
+    const attributesDialog = ref(false)
 
     load()
 
@@ -70,12 +123,11 @@ export default {
       itemsPerPage,
       search,
       formatDate,
-      headers: [
-        { title: 'Position ID', align: 'start', key: 'id.bposId', width: 120 },
-        { title: 'Box ID', align: 'start', key: 'id.bId', width: 120 },
-        { title: 'Box Name', align: 'start', key: 'b.name' },
-        { title: 'Date Exported', align: 'start', key: 'dateExported', width: 180 },
-      ],
+      allHeaders,
+      visibleHeaders,
+      visibleHeaderKeys,
+      selectableHeaders,
+      attributesDialog,
     }
   },
 }

@@ -3,8 +3,12 @@ import axios from 'axios'
 const API_URL = '/api/samples'
 
 export default {
-  getAll() {
+  async getAll() {
     return axios.get(API_URL)
+  },
+
+  async getByBoxId(bId) {
+    return axios.get(`${API_URL}/by-box/${encodeURIComponent(bId)}`)
   },
   
   getById(id) {
