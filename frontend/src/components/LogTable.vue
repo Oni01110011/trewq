@@ -5,6 +5,15 @@
         <v-icon icon="mdi-file-document-outline" class="mr-2" size="small" color="primary"></v-icon>
         <span class="text-h6">Log Records</span>
         <v-spacer></v-spacer>
+        <v-btn
+          color="secondary"
+          variant="outlined"
+          prepend-icon="mdi-view-column"
+          class="mr-2"
+          @click="attributesDialog = true"
+        >
+          Attributes
+        </v-btn>
         <v-btn color="primary" prepend-icon="mdi-plus" @click="openCreateDialog" class="mr-2">
           Add New
         </v-btn>
@@ -27,7 +36,7 @@
       <v-data-table
         v-if="logs"
         v-model:items-per-page="itemsPerPage"
-        :headers="headers"
+        :headers="visibleHeaders"
         :items="logs"
         :search="search"
         item-value="id"
@@ -66,6 +75,31 @@
       </v-data-table>
     </v-card>
 
+    <!-- Dialog zur Auswahl sichtbarer Attribute/Spalten -->
+    <v-dialog v-model="attributesDialog" max-width="400px">
+      <v-card>
+        <v-card-title class="text-h6">Select attributes</v-card-title>
+        <v-card-text>
+          <div class="text-caption mb-2">
+            Choose which columns should be visible in the table.
+          </div>
+          <v-checkbox
+            v-for="header in selectableHeaders"
+            :key="header.key"
+            v-model="visibleHeaderKeys"
+            :label="header.title"
+            :value="header.key"
+            density="compact"
+            hide-details
+          />
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn variant="text" @click="attributesDialog = false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-dialog v-model="dialog" max-width="600px">
       <v-card>
         <v-card-title>
@@ -94,7 +128,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import logService from '../services/logService'
 
 export default {
@@ -105,6 +139,29 @@ export default {
     const search = ref('')
     const dialog = ref(false)
     const editedIndex = ref(-1)
+
+    // Spalten-/Attributsteuerung
+    const allHeaders = [
+      { title: 'Log ID', align: 'start', key: 'id', width: 120 },
+      { title: 'Date Created', align: 'start', key: 'dateCreated', width: 180 },
+      { title: 'Level', align: 'center', key: 'level', width: 100 },
+      { title: 'Info', align: 'start', sortable: false, key: 'info' },
+      { title: 'Date Exported', align: 'start', key: 'dateExported', width: 180 },
+      { title: 'Actions', align: 'center', key: 'actions', sortable: false, width: 120 },
+    ]
+
+    const visibleHeaderKeys = ref(
+      allHeaders
+        .filter(h => h.key !== 'actions')
+        .map(h => h.key)
+    )
+
+    const visibleHeaders = computed(() =>
+      allHeaders.filter(h => h.key === 'actions' || visibleHeaderKeys.value.includes(h.key))
+    )
+
+    const selectableHeaders = allHeaders.filter(h => h.key !== 'actions')
+    const attributesDialog = ref(false)
     const editedItem = ref({ id: null, dateCreated: null, level: 'INFO', info: '', dateExported: null })
     const defaultItem = { id: null, dateCreated: null, level: 'INFO', info: '', dateExported: null }
 
@@ -191,14 +248,11 @@ export default {
       closeDialog,
       saveItem,
       deleteItem,
-      headers: [
-        { title: 'Log ID', align: 'start', key: 'id', width: 120 },
-        { title: 'Date Created', align: 'start', key: 'dateCreated', width: 180 },
-        { title: 'Level', align: 'center', key: 'level', width: 100 },
-        { title: 'Info', align: 'start', sortable: false, key: 'info' },
-        { title: 'Date Exported', align: 'start', key: 'dateExported', width: 180 },
-        { title: 'Actions', align: 'center', key: 'actions', sortable: false, width: 120 },
-      ],
+      allHeaders,
+      visibleHeaders,
+      visibleHeaderKeys,
+      selectableHeaders,
+      attributesDialog,
     }
   },
 }

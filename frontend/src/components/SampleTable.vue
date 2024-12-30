@@ -5,6 +5,15 @@
         <v-icon icon="mdi-test-tube" class="mr-2" size="small" color="primary"></v-icon>
         <span class="text-h6">Sample Records</span>
         <v-spacer></v-spacer>
+        <v-btn
+          color="secondary"
+          variant="outlined"
+          prepend-icon="mdi-view-column"
+          class="mr-2"
+          @click="attributesDialog = true"
+        >
+          Attributes
+        </v-btn>
         <v-btn color="primary" prepend-icon="mdi-plus" @click="openCreateDialog" class="mr-2">
           Add New
         </v-btn>
@@ -27,7 +36,7 @@
       <v-data-table
         v-if="samples"
         v-model:items-per-page="itemsPerPage"
-        :headers="headers"
+        :headers="visibleHeaders"
         :items="samples"
         :search="search"
         item-value="sId"
@@ -51,6 +60,31 @@
         </template>
       </v-data-table>
     </v-card>
+
+    <!-- Dialog zur Auswahl sichtbarer Attribute/Spalten -->
+    <v-dialog v-model="attributesDialog" max-width="400px">
+      <v-card>
+        <v-card-title class="text-h6">Select attributes</v-card-title>
+        <v-card-text>
+          <div class="text-caption mb-2">
+            Choose which columns should be visible in the table.
+          </div>
+          <v-checkbox
+            v-for="header in selectableHeaders"
+            :key="header.key"
+            v-model="visibleHeaderKeys"
+            :label="header.title"
+            :value="header.key"
+            density="compact"
+            hide-details
+          />
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn variant="text" @click="attributesDialog = false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <v-dialog v-model="dialog" max-width="600px">
       <v-card>
@@ -101,7 +135,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import sampleService from '../services/sampleService'
 
 export default {
@@ -112,6 +146,38 @@ export default {
     const search = ref('')
     const dialog = ref(false)
     const editedIndex = ref(-1)
+
+    // Spalten-/Attributsteuerung
+    const allHeaders = [
+      { title: 'Sample ID', align: 'start', key: 'sId', width: 150 },
+      { title: 'Timestamp', align: 'start', key: 'sStamp', width: 180 },
+      { title: 'Name', align: 'start', key: 'name' },
+      { title: 'Net Weight', align: 'end', key: 'weightNet' },
+      { title: 'Brutto Weight', align: 'end', key: 'weightBru' },
+      { title: 'Tara Weight', align: 'end', key: 'weightTar' },
+      { title: 'Quantity', align: 'end', key: 'quantity' },
+      { title: 'Distance', align: 'end', key: 'distance' },
+      { title: 'Lane', align: 'center', key: 'lane' },
+      { title: 'Flags', align: 'center', key: 'sFlags' },
+      { title: 'Date Crumbled', align: 'start', key: 'dateCrumbled', width: 180 },
+      { title: 'Date Exported', align: 'start', key: 'dateExported', width: 180 },
+      { title: 'Comment', align: 'start', sortable: false, key: 'comment' },
+      { title: 'Actions', align: 'center', key: 'actions', sortable: false, width: 120 },
+    ]
+
+    // Standardmäßig alle außer Actions auswählbar und sichtbar
+    const visibleHeaderKeys = ref(
+      allHeaders
+        .filter(h => h.key !== 'actions')
+        .map(h => h.key)
+    )
+
+    const visibleHeaders = computed(() =>
+      allHeaders.filter(h => h.key === 'actions' || visibleHeaderKeys.value.includes(h.key))
+    )
+
+    const selectableHeaders = allHeaders.filter(h => h.key !== 'actions')
+    const attributesDialog = ref(false)
     const editedItem = ref({
       sId: '',
       sStamp: null,
@@ -225,19 +291,11 @@ export default {
       closeDialog,
       saveItem,
       deleteItem,
-      headers: [
-        { title: 'Sample ID', align: 'start', key: 'sId', width: 150 },
-        { title: 'Timestamp', align: 'start', key: 'sStamp', width: 180 },
-        { title: 'Name', align: 'start', key: 'name' },
-        { title: 'Net Weight', align: 'end', key: 'weightNet' },
-        { title: 'Brutto Weight', align: 'end', key: 'weightBru' },
-        { title: 'Tara Weight', align: 'end', key: 'weightTar' },
-        { title: 'Quantity', align: 'end', key: 'quantity' },
-        { title: 'Distance', align: 'end', key: 'distance' },
-        { title: 'Lane', align: 'center', key: 'lane' },
-        { title: 'Comment', align: 'start', sortable: false, key: 'comment' },
-        { title: 'Actions', align: 'center', key: 'actions', sortable: false, width: 120 },
-      ],
+      allHeaders,
+      visibleHeaders,
+      visibleHeaderKeys,
+      selectableHeaders,
+      attributesDialog,
     }
   },
 }
