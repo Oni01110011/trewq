@@ -2,7 +2,7 @@
 
 Ein modernes **Laboratory Information Management System (LIMS)** mit Vue.js Progressive Web App (PWA) Frontend, Spring Boot Backend und PostgreSQL Datenbank.
 
-## 🎯 Projektübersicht
+## Projektübersicht
 
 VenLab ist eine Full-Stack-Anwendung zur Verwaltung von Laborproben, chemischen Analysen und Messwerten. Das System bietet vollständige CRUD-Operationen (Create, Read, Update, Delete) für alle Datentabellen und kann als Progressive Web App auf Desktop- und Mobilgeräten installiert werden.
 
@@ -14,7 +14,7 @@ VenLab ist eine Full-Stack-Anwendung zur Verwaltung von Laborproben, chemischen 
 **Schule:** TGM-HIT  
 **Kurs:** INSY5 - Informationssysteme
 
-## 🏗️ Architektur
+## Architektur
 
 Das Projekt besteht aus drei Hauptkomponenten:
 
@@ -56,7 +56,7 @@ Das Projekt besteht aus drei Hauptkomponenten:
 - **Docker & Docker Compose** - Containerisierung und Orchestrierung
 - **Git Submodules** - Backend-Integration
 
-## 🚀 Schnellstart
+## Schnellstart
 
 ### Voraussetzungen
 
@@ -106,13 +106,13 @@ Nach erfolgreichem Start sind folgende Services verfügbar:
 
 Das Frontend ist als vollwertige PWA konfiguriert:
 
-### ✨ PWA-Funktionen
+### PWA-Funktionen
 
-- **📲 Installierbar:** "Add to Home Screen" auf Desktop & Mobile
-- **🔌 Offline-Fähig:** Service Worker cached Assets automatisch
-- **⚡ Schnell:** Optimierte Ladezeiten durch Caching
-- **🎨 Native Experience:** Läuft wie eine native App
-- **🔔 Push-Ready:** Infrastruktur für Push-Notifications vorbereitet
+- ** Installierbar:** "Add to Home Screen" auf Desktop & Mobile
+- ** Offline-Fähig:** Service Worker cached Assets automatisch
+- ** Schnell:** Optimierte Ladezeiten durch Caching
+- ** Native Experience:** Läuft wie eine native App
+- ** Push-Ready:** Infrastruktur für Push-Notifications vorbereitet
 
 ### PWA Installation
 
@@ -151,16 +151,16 @@ Das System verwaltet folgende Entitäten:
 | **Log** | System-Logs | ✅ Create, Read, Update, Delete |
 | **Threshold** | Schwellenwerte | ✅ Create, Read, Update, Delete |
 
-## 🎨 Frontend Features
+## Frontend Features
 
 ### Benutzeroberfläche
 
-- **📱 Responsive Design:** Desktop, Tablet & Mobile optimiert
-- **🌓 Dark Mode:** Light/Dark Theme-Umschaltung
-- **🔍 Suchfunktion:** Echtzeit-Suche in allen Tabellen
-- **📄 Pagination:** Automatische Seitennummerierung (10 Items/Seite)
-- **🔼 Sortierung:** Klick auf Spaltenüberschriften zum Sortieren
-- **🎨 Material Design:** Moderne, konsistente UI mit Vuetify
+- ** Responsive Design:** Desktop, Tablet & Mobile optimiert
+- ** Dark Mode:** Light/Dark Theme-Umschaltung
+- ** Suchfunktion:** Echtzeit-Suche in allen Tabellen
+- ** Pagination:** Automatische Seitennummerierung (10 Items/Seite)
+- ** Sortierung:** Klick auf Spaltenüberschriften zum Sortieren
+- ** Material Design:** Moderne, konsistente UI mit Vuetify
 
 ### CRUD Operationen
 
@@ -285,7 +285,7 @@ insy5-informationssysteme-vue-pwa-*/
 └── README.md                     # Diese Datei
 ```
 
-## 🧪 Testing
+## Testing
 
 ### Frontend testen
 
@@ -336,7 +336,7 @@ curl -X PUT http://localhost:8080/api/samples/1 \
 curl -X DELETE http://localhost:8080/api/samples/1
 ```
 
-## 🔒 Sicherheit
+## Sicherheit
 
 - ✅ CORS korrekt konfiguriert (Backend)
 - ✅ API-Proxy durch Nginx (vermeidet CORS-Probleme)
@@ -344,7 +344,7 @@ curl -X DELETE http://localhost:8080/api/samples/1
 - ✅ Production Build entfernt Dev-Tools
 - ✅ Service Worker nur über HTTPS (localhost ausgenommen)
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Frontend lädt nicht
 
@@ -420,32 +420,32 @@ frontend:
 - [PWA Best Practices](https://web.dev/pwa/)
 - [Spring Boot Dokumentation](https://spring.io/projects/spring-boot)
 
-## 🎓 Assignment Compliance
+## Assignment Compliance
 
 Dieses Projekt erfüllt alle Anforderungen der Aufgabenstellung:
 
-### ✅ Frontend (Vue Datatable)
+### Frontend (Vue Datatable)
 - [x] CRUD-Funktionalität für Analysis-Tabelle mit Vuetify DataTables
 - [x] Funktionsfähiges Deployment via Docker Container mit Nginx
 - [x] Axios Service Classes für alle Tabellen (Sample, Box, BoxPos, Log, Threshold)
 - [x] Alle Datenbank-Tabellen über Vue.js lesbar
 - [x] OpenAPI-Dokumentation für alle Backend-Endpoints
 
-### ✅ PWA (Progressive Web App)
+### PWA (Progressive Web App)
 - [x] Service Worker für Offline-Funktionalität
 - [x] Web App Manifest mit Icons
 - [x] "Add to Home Screen" Funktionalität
 - [x] Workbox Caching-Strategie konfiguriert
 - [x] PWA-Icons in allen erforderlichen Größen (72px-512px)
 
-### ✅ Infrastructure
+### Infrastructure
 - [x] docker-compose.yml mit Frontend, Backend & Datenbank
 - [x] Multi-Stage Dockerfile für optimierte Builds
 - [x] Nginx mit API-Proxy-Konfiguration
 - [x] .gitignore korrekt konfiguriert
 - [x] Backend als Git Submodule integriert
 
-## 🚧 Zukünftige Erweiterungen
+## Zukünftige Erweiterungen
 
 Mögliche Verbesserungen für zukünftige Versionen:
 
@@ -460,11 +460,11 @@ Mögliche Verbesserungen für zukünftige Versionen:
 - [ ] **Push Notifications:** Desktop & Mobile Benachrichtigungen
 - [ ] **Internationalisierung:** Mehrsprachigkeit (i18n)
 
-## 📄 Lizenz
+## Lizenz
 
 Dieses Projekt wurde im Rahmen des INSY5-Kurses an der TGM-HIT entwickelt.
 
-## 👥 Kontakt & Support
+## Kontakt & Support
 
 **Projektteam:**
 - Baichinger
@@ -478,5 +478,3 @@ Dieses Projekt wurde im Rahmen des INSY5-Kurses an der TGM-HIT entwickelt.
 ---
 
 **Hinweis:** Stellen Sie sicher, dass alle Docker-Container laufen, bevor Sie die Anwendung verwenden. Bei Problemen konsultieren Sie die Troubleshooting-Sektion oder die detaillierten README-Dateien in den jeweiligen Verzeichnissen.
-
-**Viel Erfolg mit VenLab! 🧪🔬📊**
