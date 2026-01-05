@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = '/api/logs'
+const API_URL = '/api/log'
 
 export default {
   getAll() {
