@@ -478,3 +478,4 @@ Dieses Projekt wurde im Rahmen des INSY5-Kurses an der TGM-HIT entwickelt.
 ---
 
 **Hinweis:** Stellen Sie sicher, dass alle Docker-Container laufen, bevor Sie die Anwendung verwenden. Bei Problemen konsultieren Sie die Troubleshooting-Sektion oder die detaillierten README-Dateien in den jeweiligen Verzeichnissen.
+# trewq
